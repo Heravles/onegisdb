@@ -26,7 +26,7 @@ public class Action {
 		this.operation_id = action4Json.getId();
 		this.actionoperation = getActionType(action4Json.getOperation().getActionoperationtype());
 		ObjectTypeEnum objectType = getObjectType(action4Json.getOperation().getObjectoperationtype());
-		System.out.println(action4Json.getOperation().getObjectoperationtype());
+		//System.out.println(action4Json.getOperation().getObjectoperationtype());
 		this.objectoperation = objectType.getValue();
 		return objectType;
 	}

@@ -21,7 +21,7 @@ public class Version4Json {
 	private List<Attribute4Json> attributes;
 	private List<Form4Object> forms;
 	@JsonProperty(value = "networks")
-	private List<NetWork4Json> relation;
+	private NetWork4Json relation;
 	private List<Long> compose;
 	//private List<Model> model;
 	private List<Reference> reference;
@@ -65,16 +65,14 @@ public class Version4Json {
 	}
 	
 	public void ConvertNetworkResult(List<NetworkResult> networkResults, Long vtime) {
-		this.relation = new ArrayList<>();
-		NetWork4Json netWork4Json = new NetWork4Json();
+		this.relation = new NetWork4Json();
 		for (NetworkResult networkResult : networkResults) {
 			if (!networkResult.getTime().equals(vtime))
 				continue;
 			Node4Json node4Json = new Node4Json();
 			node4Json.Node4JsonFromResult(networkResult);
-			netWork4Json.addNode(node4Json);
+			this.relation.addNode(node4Json);
 		}
-		this.relation.add(netWork4Json);
 	}
 	
 	public String getActionType(Integer code) {

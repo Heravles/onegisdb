@@ -17,7 +17,7 @@ import lombok.Data;
 public class ObjectForm {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long pid;
+	private Long _id;
 	private Long id;
 	private Long object_id;
 	private String name;
@@ -58,10 +58,10 @@ public class ObjectForm {
 	}
 
 	public Integer getType(String geoType) {
-		switch (geoType) {
+		switch (geoType.toLowerCase()) {
 		case "point":
 			return SpatialDataTypeEnum.POINT.getValue();
-		case "lineString":
+		case "linestring":
 			return SpatialDataTypeEnum.LINESTRING.getValue();
 		case "polygon":
 			return SpatialDataTypeEnum.POLYGON.getValue();

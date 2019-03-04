@@ -118,7 +118,7 @@ public class WriteObjectController {
 									object_id, trsid, srsid, version4Json.getVtime()));
 							break;
 						case RELATION:
-							List<Node4Json> node4Jsons = version4Json.getRelation().get(0).getNodes();
+							List<Node4Json> node4Jsons = version4Json.getRelation().getNodes();
 							if (null != node4Jsons) {
 								nodeList.addAll(NetworkConvert(node4Jsons, object_id, 
 										trsid, version4Json.getVtime()));
