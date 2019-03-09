@@ -1,4 +1,4 @@
-PWD E:/Projects/Postgresql/web_service/web服务api文档
+PWD E:/Projects/Postgresql/onegisdb/web_service/web服务api文档
 INPUT e:/IDE/texlive/2017/texmf.cnf
 INPUT e:/IDE/texlive/2017/texmf-dist/web2c/texmf.cnf
 INPUT e:/IDE/texlive/2017/texmf-var/web2c/pdftex/pdflatex.fmt
@@ -312,7 +312,6 @@ INPUT e:/IDE/texlive/2017/texmf-dist/fonts/tfm/zhmetrics/unisong/unisong91.tfm
 INPUT e:/IDE/texlive/2017/texmf-dist/fonts/tfm/zhmetrics/unisong/unisong5e.tfm
 INPUT e:/IDE/texlive/2017/texmf-dist/fonts/tfm/zhmetrics/unisong/unisong62.tfm
 INPUT e:/IDE/texlive/2017/texmf-dist/fonts/tfm/zhmetrics/unisong/unisong7e.tfm
-INPUT e:/IDE/texlive/2017/texmf-dist/fonts/tfm/zhmetrics/unisong/unisong96.tfm
 INPUT e:/IDE/texlive/2017/texmf-dist/fonts/tfm/zhmetrics/unisong/unisong7a.tfm
 INPUT e:/IDE/texlive/2017/texmf-dist/fonts/tfm/zhmetrics/unisong/unisong64.tfm
 INPUT e:/IDE/texlive/2017/texmf-dist/fonts/tfm/zhmetrics/unisong/unisong6d.tfm
@@ -346,9 +345,12 @@ INPUT e:/IDE/texlive/2017/texmf-dist/fonts/tfm/zhmetrics/unihei/unihei63.tfm
 INPUT e:/IDE/texlive/2017/texmf-dist/fonts/tfm/zhmetrics/unihei/unihei53.tfm
 INPUT e:/IDE/texlive/2017/texmf-dist/tex/latex/base/omscmr.fd
 INPUT e:/IDE/texlive/2017/texmf-dist/tex/latex/base/omscmr.fd
+INPUT e:/IDE/texlive/2017/texmf-dist/fonts/tfm/zhmetrics/unisong/unisong96.tfm
 INPUT e:/IDE/texlive/2017/texmf-dist/fonts/tfm/zhmetrics/unisong/unisong8d.tfm
 INPUT e:/IDE/texlive/2017/texmf-dist/fonts/tfm/zhmetrics/unisong/unisong95.tfm
 INPUT e:/IDE/texlive/2017/texmf-dist/fonts/tfm/zhmetrics/unisong/unisong71.tfm
+INPUT e:/IDE/texlive/2017/texmf-dist/fonts/tfm/zhmetrics/unisong/unisong7b.tfm
+INPUT e:/IDE/texlive/2017/texmf-dist/fonts/tfm/zhmetrics/unisong/unisong9e.tfm
 INPUT e:/IDE/texlive/2017/texmf-dist/fonts/tfm/zhmetrics/unisong/unisong98.tfm
 INPUT e:/IDE/texlive/2017/texmf-dist/fonts/tfm/zhmetrics/unihei/unihei8f.tfm
 INPUT e:/IDE/texlive/2017/texmf-dist/fonts/tfm/zhmetrics/unihei/unihei56.tfm
@@ -356,6 +358,7 @@ INPUT e:/IDE/texlive/2017/texmf-dist/fonts/tfm/zhmetrics/unihei/unihei50.tfm
 INPUT e:/IDE/texlive/2017/texmf-dist/fonts/tfm/zhmetrics/unihei/unihei66.tfm
 INPUT e:/IDE/texlive/2017/texmf-dist/fonts/tfm/zhmetrics/unihei/unihei79.tfm
 INPUT e:/IDE/texlive/2017/texmf-dist/fonts/tfm/zhmetrics/unihei/unihei4f.tfm
+INPUT e:/IDE/texlive/2017/texmf-dist/fonts/tfm/zhmetrics/unisong/unisong70.tfm
 INPUT e:/IDE/texlive/2017/texmf-dist/fonts/tfm/zhmetrics/unisong/unisong6c.tfm
 INPUT figures/object.png
 INPUT ./figures/object.png
@@ -373,11 +376,13 @@ INPUT ./web_service.out
 INPUT c:/Windows/fonts/simsun.ttc
 INPUT c:/Windows/fonts/simsun.ttc
 INPUT c:/Windows/fonts/simsun.ttc
+INPUT c:/Windows/fonts/simsun.ttc
 INPUT c:/Windows/fonts/simhei.ttf
 INPUT c:/Windows/fonts/simhei.ttf
 INPUT c:/Windows/fonts/simhei.ttf
 INPUT c:/Windows/fonts/simhei.ttf
 INPUT c:/Windows/fonts/simhei.ttf
+INPUT c:/Windows/fonts/simsun.ttc
 INPUT c:/Windows/fonts/simsun.ttc
 INPUT c:/Windows/fonts/simsun.ttc
 INPUT c:/Windows/fonts/simsun.ttc
