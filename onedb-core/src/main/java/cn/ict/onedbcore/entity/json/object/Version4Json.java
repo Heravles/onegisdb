@@ -2,6 +2,7 @@ package cn.ict.onedbcore.entity.json.object;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -20,13 +21,14 @@ public class Version4Json {
 	private List<VersionBase> base;
 	private List<Attribute4Json> attributes;
 	private List<Form4Object> forms;
-	@JsonProperty(value = "networks")
+	@JsonProperty(value = "network")
 	private NetWork4Json relation;
 	private List<Long> compose;
 	//private List<Model> model;
 	private List<Reference> reference;
 	
-	public List<Action4Json> ConvertActionFromResult(List<ActionResult> actionResults) {
+	public List<Action4Json> ConvertActionFromResult(List<ActionResult> actionResults,
+			Map<String, Boolean> tuples) {
 		this.actions = new ArrayList<>();
 		for (ActionResult actionResult : actionResults) {
 			Action4Json action4Json = new Action4Json();
@@ -34,6 +36,9 @@ public class Version4Json {
 			Operation operation = new Operation();
 			operation.setActionoperationtype(getActionType(actionResult.getActionoperation()));
 			operation.setObjectoperationtype(getObjectType(actionResult.getObjectoperation()));
+			String op = operation.getObjectoperationtype();
+			if (tuples.containsKey(op) && tuples.get(op) == false)
+				continue;
 			action4Json.setOperation(operation);
 			this.actions.add(action4Json);
 		}

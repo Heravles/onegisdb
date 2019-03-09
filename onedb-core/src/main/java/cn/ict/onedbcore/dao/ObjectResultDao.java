@@ -17,15 +17,21 @@ public class ObjectResultDao {
 
 	@Autowired
 	private ObjectResultMapper objectResultMapper;
+
+	public List<ObjectResult> queryByDomain(long sdomain) {
+		List<Map<String, Object>> resultMaps = objectResultMapper.queryByDomain(sdomain);
+		return transfer(resultMaps);
+	}
 	
 	public List<ObjectResult> queryById(long id) {
 		List<Map<String, Object>> resultMaps = objectResultMapper.queryById(id);
 		return transfer(resultMaps);
 	}
 	
-	public List<ObjectResult> queryByIdAndTS(long id, long begintime, long endtime, String wkt, 
+	public List<ObjectResult> queryByIdAndTS(String id, long begintime, long endtime, String wkt, 
 			long trs, long srs) {
-		List<Map<String, Object>> resultMaps = objectResultMapper.queryByIdAndTS(id
+		List<Map<String, Object>> resultMaps = 
+				objectResultMapper.queryByIdAndNameAndTS(id, null
 				, begintime, endtime, wkt, trs, srs);
 		return transfer(resultMaps);
 	}
@@ -37,7 +43,8 @@ public class ObjectResultDao {
 
 	public List<ObjectResult> queryByNameAndTS(String name, long begintime, long endtime, String wkt, 
 			long trs, long srs) {
-		List<Map<String, Object>> resultMaps = objectResultMapper.queryByNameAndTS(name
+		List<Map<String, Object>> resultMaps = 
+				objectResultMapper.queryByIdAndNameAndTS(null, name
 				, begintime, endtime, wkt, trs, srs);
 		return transfer(resultMaps);
 	}
@@ -47,7 +54,7 @@ public class ObjectResultDao {
 		return transfer(resultMaps);
 	}
 	
-	public List<ObjectResult> queryByIdAndNameAndTS(long id, String name, long begintime, 
+	public List<ObjectResult> queryByIdAndNameAndTS(String id, String name, long begintime, 
 			long endtime, String wkt, long trs, long srs) {
 		List<Map<String, Object>> resultMaps = objectResultMapper.queryByIdAndNameAndTS(id, name
 				, begintime, endtime, wkt, trs, srs);

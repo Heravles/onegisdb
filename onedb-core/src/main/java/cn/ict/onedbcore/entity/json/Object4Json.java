@@ -3,6 +3,7 @@ package cn.ict.onedbcore.entity.json;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -12,6 +13,7 @@ import cn.ict.onedbcore.entity.json.object.NetWork4Json;
 import cn.ict.onedbcore.entity.json.object.Node4Json;
 import cn.ict.onedbcore.entity.json.object.Otype;
 import cn.ict.onedbcore.entity.json.object.Version4Json;
+import cn.ict.onedbcore.enums.ObjectTypeEnum;
 import cn.ict.onedbcore.model.ObjectResult;
 import cn.ict.onedbcore.model.obj.AttributeResult;
 import cn.ict.onedbcore.model.obj.NetworkResult;
@@ -43,7 +45,8 @@ public class Object4Json {
 	private List<Long> datagenerate;
 	private List<Version4Json> versions;
 	
-	public void Object4JsonFromResult(ObjectResult objectResult) {
+	public void Object4JsonFromResult(ObjectResult objectResult, 
+			Map<String, Boolean> tuples) {
 		Long vtime = objectResult.getRealtime();
 		this.id = objectResult.getId();
 		this.name = objectResult.getName();
@@ -61,9 +64,12 @@ public class Object4Json {
 		this.compose = String2ListLong(objectResult.getCompose());
 		this.datasource = objectResult.getDatasource();
 		this.datagenerate = String2ListLong(objectResult.getDatagenerate());
-		ConvertAttrResult(objectResult.getAttributes_cur(), vtime);
-		ConverFormResult(objectResult.getForms_cur(), vtime);
-		ConvertNetworkResult(objectResult.getNetworknodes_cur(), vtime);
+		if (tuples.containsKey(ObjectTypeEnum.ATTRIBUTE.getType()) && tuples.get(ObjectTypeEnum.ATTRIBUTE.getType()) == true)
+			ConvertAttrResult(objectResult.getAttributes_cur(), vtime);
+		if (tuples.containsKey(ObjectTypeEnum.FORM.getType()) && tuples.get(ObjectTypeEnum.FORM.getType()) == true)
+			ConverFormResult(objectResult.getForms_cur(), vtime);
+		if (tuples.containsKey(ObjectTypeEnum.RELATION.getType()) && tuples.get(ObjectTypeEnum.RELATION.getType()) == true)
+			ConvertNetworkResult(objectResult.getNetworknodes_cur(), vtime);
 	}
 	
 	public void ConvertAttrResult(List<AttributeResult> attributeResults, Long vtime) {

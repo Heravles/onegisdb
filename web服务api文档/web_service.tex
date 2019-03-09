@@ -97,21 +97,21 @@
 			\hline
 			序号 & 接口功能 & 完成情况 \\
 			\hline
-			1 & 基于id、name查询对象八元组 & 基本完成，除八元组返回配置 \\
+			1 & 基于id、name查询对象八元组 & 完成 \\
 			\hline
-			2 & 基于id、name列表作时空操作查询对象八元组 & 八元组返回配置及列表参数未完成，目前只支持单个操作 \\
+			2 & 基于id、name列表作时空操作查询对象八元组 & 完成 \\
 			\hline
-			3 & 根据关系类型、关系递归深度查询相关对象 & 关系类型查询未完成（类型很多） \\
+			3 & 根据关系类型、关系递归深度查询相关对象 & 完成 \\
 			\hline
-			4 & 全生命周期查询、插入 & 查询包括在接口2功能中，插入暂缓 \\
+			4 & 时空域查询 & 完成 \\
 			\hline
-			5 & 时空域查询 & 目前只有一个时空域，暂缓 \\
+			5 & 全生命周期查询、插入 & 查询包括在接口2功能中，插入暂缓 \\
 			\hline
 			6 & 父子对象查询 & parent与compose字段为空 \\
 			\hline
 			7 & 针对对象几个方面的修改 & 同插入，暂缓，后续版本提供 \\
 			\hline
-			8 & 时空缓冲区 & 功能整合到接口2的Contains查询中 \\
+			8 & 时空缓冲区 & 功能整合到接口2中，查询的是position的位置 \\
 			\hline
 		\end{tabular}
 	\end{table}
@@ -120,13 +120,15 @@
 \subsection{对象基本信息查询接口}
 	\paragraph{接口参数}
 		\begin{itemize}
-			\item id: 对象id
-			\item name: 对象名称
+			\item id: 对象id 可以为列表，逗号或空格分割
+			\item sdomain 时空域id
+			\item name: 对象名称 可以为列表，逗号或空格分隔
 			\item begintime: 起始时间
 			\item endtime: 结束时间
 			\item wkt: 空间对象
 			\item trs: 时间参照
 			\item srs: 空间参照
+			\item tuples: 八元组(attribute,form,attribute,model,compose,$\codts$) 逗号分隔，输出有对应字符的元组，不输入tuples默认为输出全部八元组
 		\end{itemize}
 	\paragraph{接口}
 		接口形式如下：
@@ -140,17 +142,19 @@
 				\hline
 				功能 & 接口参数(按顺序) \\
 				\hline
+				根据对象时空域查 & sdomain \\
+				\hline
 				根据对象id查 & id \\
 				\hline
 				根据对象name查 & name \\
 				\hline
 				根据对象id及name查 & id, name \\
 				\hline
-				根据对象id作时空查询 & id,begintime,endtime,wkt,trs,srs \\
+				根据对象id列表作时空查询 & id,begintime,endtime,wkt,trs,srs \\
 				\hline
-				根据对象name作时空查询 & name,begintime,endtime,wkt,trs,srs \\
+				根据对象name列表作时空查询 & name,begintime,endtime,wkt,trs,srs \\
 				\hline
-				根据对象id及name作时空查询 & id, name, begintime,endtime,wkt,trs,srs \\
+				根据对象id及name列表作时空查询 & id, name, begintime,endtime,wkt,trs,srs \\
 				\hline
 			\end{tabular}
 		\end{table}
@@ -159,11 +163,12 @@
 		同交换格式对象
 	\paragraph{查询示例}
 		查询结果集 \\
-		查询api\_1:【10.17.18.46:8080/api/read/object/id/7849140314112】 \\
-		查询api\_2:【10.17.18.46:8080/api/read/object/name/走廊】 \\
-		查询api\_3:【10.17.18.46:8080/api/read/object/id/4094382637056/begintime/1547110058000/endtime/1547110058001/wkt/POINT(114.2878191475 9.7140986105)/trs/1/srs/1】 \\
+		查询api\_1:【10.17.18.46:8080/api/read/object/sdomain/8939901214720】 \\
+		查询api\_2:【10.17.18.46:8080/api/read/object/id/7849140314112】 \\
+		查询api\_3:【10.17.18.46:8080/api/read/object/name/走廊/tuples/form】 \\
+		查询api\_4:【10.17.18.46:8080/api/read/object/id/4094382637056, 7805735124992/name/路灯/begintime/1547110058000/endtime/1547110058001/wkt/POINT(114.2878191475 9.7140986105)/trs/1/srs/1】 \\
 		下图仅作示例，非完整查询结果 \\
-		{\color{red}注: 空间操作目前先提供contains，下个版本提供完整操作}
+		{\color{red}注: 如果时间区间没有查询结果，返回对象版本中vtime<=begintime且最大的结果，如果仍无结果，不返回}
 		\begin{figure}[H]
 			\centering
 			\includegraphics[width = 0.7\linewidth]{object.png}

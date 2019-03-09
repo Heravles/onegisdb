@@ -1,6 +1,5 @@
 package cn.ict.onedbcore.entity.db;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -8,7 +7,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
 
@@ -42,16 +40,16 @@ public class NetworkNode {
 	private String refobject_name;
 	private Long refotype_id;
 	private String refotype_name;
-	@Type(type = "long-array")
-	@Column(
-		name = "properties",
-		columnDefinition = "bigint[]"
-	)
+	//@Type(type = "long-array")
+	//@Column(
+	//	name = "properties",
+	//	columnDefinition = "bigint[]"
+	//)
 	private String properties;
 	private String edge_label;
-	private Long edgerelation_id;
-	private String edgerelation_name;
-	private Integer intensity;
+	private Long edge_relation_id;
+	private String edge_relation_name;
+	private Integer edge_intensity;
 	//private long[] rules;
 	//private long[] attributes;
 
@@ -79,10 +77,10 @@ public class NetworkNode {
 			this.edge_label = edge4Json.getLabel();
 			ConnectorElement relation = edge4Json.getRelation();
 			if (null != relation) {
-				this.edgerelation_id = relation.getId();
-				this.edgerelation_name = relation.getName();
+				this.edge_relation_id = relation.getId();
+				this.edge_relation_name = relation.getName();
 			}
-			this.intensity = edge4Json.getIntensity();
+			this.edge_intensity = edge4Json.getIntensity();
 		}
 	}
 }

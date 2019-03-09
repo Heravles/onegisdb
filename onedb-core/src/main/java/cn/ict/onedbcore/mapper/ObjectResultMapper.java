@@ -18,36 +18,21 @@ public interface ObjectResultMapper {
 	 * @return
 	 */
 
+	@Select("SELECT * FROM ict_searchobjectbydomain(#{sdomain})")
+	@ResultType(Map.class)
+	@Options(statementType = StatementType.CALLABLE)
+	public List<Map<String, Object> > queryByDomain(@Param("sdomain") long sdomain);
+
 	@Select("SELECT * FROM ict_searchobject(#{id})")
 	@ResultType(Map.class)
 	@Options(statementType = StatementType.CALLABLE)
 	public List<Map<String, Object> > queryById(@Param("id") long id);
 
-	@Select("SELECT * FROM ict_searchobject(#{id},#{begintime},#{endtime},#{wkt},#{trs},#{srs})")
-	@ResultType(Map.class)
-	@Options(statementType = StatementType.CALLABLE)
-	public List<Map<String, Object> > queryByIdAndTS(@Param("id") long id,
-			@Param("begintime") long begintime,
-			@Param("endtime") long endtime,
-			@Param("wkt") String wkt,
-			@Param("trs") long trs,
-			@Param("srs") long srs);
-	
 	@Select("SELECT * FROM ict_searchobject(#{name})")
 	@ResultType(Map.class)
 	@Options(statementType = StatementType.CALLABLE)
 	public List<Map<String, Object>> queryByName(@Param("name") String name);
 
-	@Select("SELECT * FROM ict_searchobject(#{name},#{begintime},#{endtime},#{wkt},#{trs},#{srs})")
-	@ResultType(Map.class)
-	@Options(statementType = StatementType.CALLABLE)
-	public List<Map<String, Object> > queryByNameAndTS(@Param("name") String name,
-			@Param("begintime") long begintime,
-			@Param("endtime") long endtime,
-			@Param("wkt") String wkt,
-			@Param("trs") long trs,
-			@Param("srs") long srs);
-	
 	@Select("SELECT * FROM ict_searchobject(#{id}, #{name})")
 	@ResultType(Map.class)
 	@Options(statementType = StatementType.CALLABLE)
@@ -56,7 +41,7 @@ public interface ObjectResultMapper {
 	@Select("SELECT * FROM ict_searchobject(#{id},#{name},#{begintime},#{endtime},#{wkt},#{trs},#{srs})")
 	@ResultType(Map.class)
 	@Options(statementType = StatementType.CALLABLE)
-	public List<Map<String, Object> > queryByIdAndNameAndTS(@Param("id") long id,
+	public List<Map<String, Object> > queryByIdAndNameAndTS(@Param("id") String id,
 			@Param("name") String name,
 			@Param("begintime") long begintime,
 			@Param("endtime") long endtime,

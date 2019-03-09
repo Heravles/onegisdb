@@ -16,5 +16,10 @@ public interface RelationResultMapper {
 	@Options(statementType = StatementType.CALLABLE)
 	public List<Map<String, Object> > queryByIdAndDep(@Param("id") long id, @Param("dep") int dep);
 
+	@Select("SELECT * FROM ict_relation(#{id},#{relation},#{dep})")
+	@ResultType(Map.class)
+	@Options(statementType = StatementType.CALLABLE)
+	public List<Map<String, Object> > queryByIdAndRelationAndDep(@Param("id") long id, 
+			@Param("relation") long relation, @Param("dep") int dep);
 
 }

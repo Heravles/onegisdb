@@ -21,6 +21,13 @@ public class RelationResultDao {
 		List<Map<String, Object>> resultMaps = relationResultMapper.queryByIdAndDep(id, dep);
 		return transfer(resultMaps);
 	}
+
+	public List<RelationResult> queryByIdAndRelationAndDep(
+			long id, long relation, int dep) {
+		List<Map<String, Object>> resultMaps = 
+				relationResultMapper.queryByIdAndRelationAndDep(id, relation, dep);
+		return transfer(resultMaps);
+	}
 	
 
 	public static List<RelationResult> transfer(List<Map<String, Object>> resultMaps){

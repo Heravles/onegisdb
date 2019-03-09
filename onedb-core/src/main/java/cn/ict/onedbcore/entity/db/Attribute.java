@@ -17,13 +17,14 @@ public class Attribute {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long _id;
+	private Long id;
+	private Long objectclass_id;
 	private Long object_id;
 	private String name;
 	private String value;
 	private Long trs;
 	@NotNull
 	private Long time;
-	private Long id;
 	
 	public void AttributeFromWrapper(Attribute4Json attribute4Json, Long object_id, Long trsid, Long vtime) {
 		this.object_id = object_id;

@@ -35,11 +35,6 @@ public class WriteRelationController {
 	FieldDao fieldDao;
 	
 
-	@RequestMapping(method = RequestMethod.POST, value = "/relation2")
-	public void Demo(JSONObject jsonObject) {
-		System.out.println(jsonObject);
-	}
-
 	@RequestMapping(method = RequestMethod.POST, value = "/relation")
 	public List<Relation4Json> writeDobjects(@RequestBody List<Relation4Json> relation4Jsons) {
 		List<Relation> relations = new ArrayList<>();

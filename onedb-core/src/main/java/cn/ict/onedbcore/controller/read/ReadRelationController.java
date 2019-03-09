@@ -28,5 +28,13 @@ public class ReadRelationController {
 		return result;
 	}
 
+	@RequestMapping(value = "/relation/id/{id}/relation/{relation}/dep/{dep}")
+	public List<RelationResult> queryById(@PathVariable(value = "id") String id,
+			@PathVariable(value = "relation") int relation,
+			@PathVariable(value = "dep") int dep) {
+		List<RelationResult> result = relationResultDao.queryByIdAndRelationAndDep(
+				Long.valueOf(id).longValue(), relation, dep);
+		return result;
+	}
 
 }
