@@ -8,6 +8,8 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultType;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.mapping.StatementType;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 public interface RelationResultMapper {
 

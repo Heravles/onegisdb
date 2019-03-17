@@ -1,5 +1,7 @@
 package cn.ict.onedbcore.dao;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +16,9 @@ public class RelationDao {
 	@Autowired
 	RelationMapper relationMapper;
 	
-	public Iterable<Relation> saveAll(List<Relation> relations){
-		return relationMapper.saveAll(relations);
+	public List<Relation> saveAll(Collection<Relation> lists){
+		List<Relation> resultList = new ArrayList<>();
+		relationMapper.saveAll(lists).forEach(resultList::add);
+		return resultList;
 	}
 }

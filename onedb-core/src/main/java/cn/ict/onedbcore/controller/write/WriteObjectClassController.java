@@ -26,6 +26,7 @@ import cn.ict.onedbcore.entity.json.ObjectClass4Json;
 import cn.ict.onedbcore.entity.json.common.Field4Json;
 import cn.ict.onedbcore.entity.json.objectclass.Connector4Json;
 import cn.ict.onedbcore.entity.json.objectclass.Form4Class;
+import cn.ict.onedbcore.error.ResultResponse;
 
 
 
@@ -49,7 +50,7 @@ public class WriteObjectClassController {
 	ObjectClassDao objectClassDao;
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/class")
-	public List<ObjectClass4Json> writeDobjects(@RequestBody List<ObjectClass4Json> objectClass4Jsons) {
+	public ResultResponse<Long> writeDobjects(@RequestBody List<ObjectClass4Json> objectClass4Jsons) {
 		List<ObjectClass> objectClasses = new ArrayList<>();
 		Set<Field4Json> fieldSet = new HashSet<>();
 		Set<Form4Class> form4ClassSet = new HashSet<>();
@@ -64,12 +65,31 @@ public class WriteObjectClassController {
 			form4ClassSet.addAll(objectClass4Json.getForms());
 			connector4JsonSet.addAll(objectClass4Json.getConnectors());
 		}
-		saveFields(fieldSet);
-		saveForms(form4ClassSet);
-		saveConnectors(connector4JsonSet);
-		System.out.println("save objectClasses " + objectClasses.size());
-		objectClassDao.saveAll(objectClasses);
-		return objectClass4Jsons;
+		List<ObjectClass> resultLists = new ArrayList<ObjectClass>();
+		ResultResponse<Long> result = new ResultResponse<Long>("objectclass");
+		try {
+			saveFields(fieldSet);
+			saveForms(form4ClassSet);
+			saveConnectors(connector4JsonSet);
+			resultLists = objectClassDao.saveAll(objectClasses);
+		} catch (Exception e) {
+			result.setSuccess(false);
+			Throwable cause = e.getCause();
+		    if(cause instanceof org.hibernate.exception.ConstraintViolationException) {
+		        String errMsg = 
+		        		((org.hibernate.exception.ConstraintViolationException)cause).
+		        		getSQLException().getMessage();
+		        result.setMessage(errMsg);
+		    } else {
+		    	result.setMessage(e.getMessage());
+		    }
+		} finally {
+			result.setCount(resultLists.size());
+			if (result.getCount() > 0) {
+				result.setSamplekey(resultLists.get(0).getId());
+			}
+		}
+		return result;
 	}
 	
 	public void saveFields(Set<Field4Json> fieldSet) {
@@ -79,7 +99,7 @@ public class WriteObjectClassController {
 			field.GetFieldFromWrapper(field4Json);
 			fieldList.add(field);
 		}
-		System.out.println("save fields " + fieldList.size());
+		//System.out.println("save fields " + fieldList.size());
 		fieldDao.saveAll(fieldList);
 	}
 
@@ -91,7 +111,7 @@ public class WriteObjectClassController {
 			formList.add(objectClassForm);
 			System.out.println(objectClassForm);
 		}
-		System.out.println("save forms " + formList.size());
+		//System.out.println("save forms " + formList.size());
 		objectClassFormDao.saveAll(formList);
 	}
 	
@@ -102,7 +122,7 @@ public class WriteObjectClassController {
 			connector.GetConnectorFromWrapper(connector4Json);
 			connectorList.add(connector);
 		}
-		System.out.println("save connectors " + connectorList.size());
+		//System.out.println("save connectors " + connectorList.size());
 		connectorDao.saveAll(connectorList);
 	}
 	

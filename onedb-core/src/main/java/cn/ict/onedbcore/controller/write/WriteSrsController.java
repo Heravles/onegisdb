@@ -16,6 +16,7 @@ import cn.ict.onedbcore.entity.json.SrsTrs;
 import cn.ict.onedbcore.entity.json.srstrs.Derived;
 import cn.ict.onedbcore.entity.json.srstrs.SystemCell;
 import cn.ict.onedbcore.enums.SrsTrsEnum;
+import cn.ict.onedbcore.error.ResultResponse;
 
 
 
@@ -29,7 +30,7 @@ public class WriteSrsController {
 	SrsDao srsDao;
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/srs")
-	public List<Srs> writeSrs(@RequestBody List<SrsTrs> srsList) {
+	public ResultResponse<String> writeSrs(@RequestBody List<SrsTrs> srsList) {
 		System.out.println(srsList);
 		List<Srs> srses = new ArrayList<>();
 		for (SrsTrs srstrs : srsList) {
@@ -52,7 +53,27 @@ public class WriteSrsController {
 				}
 			}
 		}
-		srsDao.saveAll(srses);
-		return srses;
+		List<Srs> resultLists = new ArrayList<Srs>();
+		ResultResponse<String> result = new ResultResponse<String>("srs");
+		try {
+			resultLists = srsDao.saveAll(srses);
+		} catch (Exception e) {
+			result.setSuccess(false);
+			Throwable cause = e.getCause();
+		    if(cause instanceof org.hibernate.exception.ConstraintViolationException) {
+		        String errMsg = 
+		        		((org.hibernate.exception.ConstraintViolationException)cause).
+		        		getSQLException().getMessage();
+		        result.setMessage(errMsg);
+		    } else {
+		    	result.setMessage(e.getMessage());
+		    }
+		} finally {
+			result.setCount(resultLists.size());
+			if (result.getCount() > 0) {
+				result.setSamplekey(resultLists.get(0).getCode());
+			}
+		}
+		return result;
 	}
 }

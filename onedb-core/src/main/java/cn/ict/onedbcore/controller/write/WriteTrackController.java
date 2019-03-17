@@ -16,7 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import cn.ict.onedbcore.dao.TrackDao;
-import cn.ict.onedbcore.entity.db.Track;
+import cn.ict.onedbcore.entity.db.TrackData;
+import cn.ict.onedbcore.error.ResultResponse;
 
 
 
@@ -31,9 +32,10 @@ public class WriteTrackController {
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/track")
 	@Consumes(MediaType.TEXT_PLAIN)
-	public List<Track> writeDobjects(InputStream incomingData) {
-		List<Track> result = new ArrayList<>();
+	public ResultResponse<Long> writeDobjects(InputStream incomingData) {
         Boolean skipFirst = true;
+		List<TrackData> resultLists = new ArrayList<>();
+		ResultResponse<Long> result = new ResultResponse<Long>("trackdata");
         try {
             BufferedReader in = new BufferedReader(new InputStreamReader(incomingData));
             String line = null;
@@ -42,20 +44,28 @@ public class WriteTrackController {
             		skipFirst = false;
             		continue;
             	}
-            	Track track = new Track();
+            	TrackData trackdata = new TrackData();
             	String[] str = line.split("\\s+");
-            	track.setOid(Long.valueOf(str[0]).longValue());
-            	track.setX(Double.valueOf(str[1]).doubleValue());
-            	track.setY(Double.valueOf(str[2]).doubleValue());
-            	track.setZ(Double.valueOf(str[3]).doubleValue());
-            	track.setTime(Long.valueOf(str[4]).longValue());
-            	result.add(track);
+            	trackdata.setTrackData(str);
+            	resultLists.add(trackdata);
             }
-        } catch(Exception e) {
-            System.out.println("Error Parsing: - ");
-        }
-        System.out.println("Data Received: " + result);
-
-        return trackDao.saveAll(result);
+		} catch (Exception e) {
+			result.setSuccess(false);
+			Throwable cause = e.getCause();
+		    if(cause instanceof org.hibernate.exception.ConstraintViolationException) {
+		        String errMsg = 
+		        		((org.hibernate.exception.ConstraintViolationException)cause).
+		        		getSQLException().getMessage();
+		        result.setMessage(errMsg);
+		    } else {
+		    	result.setMessage(e.getMessage());
+		    }
+		} finally {
+			result.setCount(resultLists.size());
+			if (result.getCount() > 0) {
+				result.setSamplekey(resultLists.get(0).getIndentity().getOid());
+			}
+		}
+		return result;
 	}
 }

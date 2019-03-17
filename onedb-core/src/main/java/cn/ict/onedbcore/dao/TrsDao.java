@@ -1,5 +1,7 @@
 package cn.ict.onedbcore.dao;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +15,12 @@ public class TrsDao {
 
 	@Autowired
 	TrsMapper trsMapper;
-	
-	public Iterable<Trs> saveAll(List<Trs> trsList){
-		return trsMapper.saveAll(trsList);
-	}
 
+	public List<Trs> saveAll(Collection<Trs> lists){
+		List<Trs> resultList = new ArrayList<>();
+		trsMapper.saveAll(lists).forEach(resultList::add);
+		return resultList;
+	}
 	//public Long getIdByCode(String code) {
 	//	return trsMapper.getIdByCode(code);
 	//}

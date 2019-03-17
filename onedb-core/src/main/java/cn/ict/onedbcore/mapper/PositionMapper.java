@@ -8,4 +8,5 @@ import cn.ict.onedbcore.entity.db.Position;
 @Repository
 public interface PositionMapper extends CrudRepository<Position, Long>{
 	
+
 }

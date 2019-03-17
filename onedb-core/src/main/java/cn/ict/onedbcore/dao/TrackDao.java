@@ -1,23 +1,54 @@
 package cn.ict.onedbcore.dao;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import cn.ict.onedbcore.entity.db.Track;
+import cn.ict.onedbcore.entity.db.TrackData;
 import cn.ict.onedbcore.mapper.TrackMapper;
+import cn.ict.onedbcore.mapper.TrackResultMapper;
+import cn.ict.onedbcore.model.TrackDataResult;
+import cn.ict.onedbcore.util.MapToObject;
 
 @Service
 public class TrackDao {
 
 	@Autowired
 	TrackMapper trackMapper;
+
+	@Autowired
+	TrackResultMapper trackResultMapper;
 	
-	public List<Track> saveAll(List<Track> tracks){
-		List<Track> resultList = new ArrayList<>();
-		trackMapper.saveAll(tracks).forEach(resultList::add);
+	public List<TrackData> saveAll(Collection<TrackData> lists){
+		List<TrackData> resultList = new ArrayList<>();
+		trackMapper.saveAll(lists).forEach(resultList::add);
 		return resultList;
+	}
+
+	public List<TrackDataResult> queryTrackById(long id) {
+		List<Map<String, Object>> resultMaps = trackResultMapper.querytrackById(id);
+		return transfer(resultMaps);
+	}
+
+	public List<TrackDataResult> queryTrackByIdAndTS(
+			String id, long begintime, long endtime, String wkt, long trs, long srs) {
+		List<Map<String, Object>> resultMaps = 
+				trackResultMapper.querytrackByIdAndTS(id, begintime, endtime, 
+						wkt, trs, srs);
+		return transfer(resultMaps);
+	}
+	
+
+	public static List<TrackDataResult> transfer(List<Map<String, Object>> resultMaps){
+		List<TrackDataResult> results = new ArrayList<>();
+		for (Map<String, Object> resultMap : resultMaps) {
+			TrackDataResult result = (TrackDataResult)MapToObject.mapToObject(resultMap, TrackDataResult.class);
+			results.add(result);
+		}
+		return results;
 	}
 }

@@ -34,6 +34,7 @@ import cn.ict.onedbcore.entity.json.object.NetWork4Json;
 import cn.ict.onedbcore.entity.json.object.Node4Json;
 import cn.ict.onedbcore.entity.json.object.Version4Json;
 import cn.ict.onedbcore.enums.ObjectTypeEnum;
+import cn.ict.onedbcore.error.ResultResponse;
 
 
 
@@ -63,7 +64,7 @@ public class WriteObjectController {
 	NetworkNodeDao networkNodeDao;
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/object")
-	public List<Object4Json> writeDobjects(@RequestBody List<Object4Json> object4Jsons) {
+	public ResultResponse<Long> writeDobjects(@RequestBody List<Object4Json> object4Jsons) {
 		List<Attribute> attributeList = new ArrayList<>();
 		List<ObjectForm> formList = new ArrayList<>();
 		List<NetworkNode> nodeList = new ArrayList<>();
@@ -136,29 +137,39 @@ public class WriteObjectController {
 				}
 				//Version && Action
 				Version version = new Version();
-				System.out.println("save action " + actionList.size());
 				version.VersionFromWrapper(version4Json, object_id, trsid, //new long[1]);
 						actionDao.saveAll(actionList));
 				versionList.add(version);
 			}
 		}
 
-		//for (NetworkNode networkNode : nodeList) {
-		//	System.out.println(networkNode);
-		//}
-		System.out.println("save object " + objectList.size());
-		objectDao.saveAll(objectList);
-		System.out.println("save networkNode " + nodeList.size());
-		networkNodeDao.saveAll(nodeList);
-		System.out.println("save attribute " + attributeList.size());
-		attributeDao.saveAll(attributeList);
-		System.out.println("save form " + formList.size());
-		objectFormDao.saveAll(formList);
-		System.out.println("save position " + positionList.size());
-		positionDao.saveAll(positionList);
-		System.out.println("save version " + versionList.size());
-		versionDao.saveAll(versionList);
-		return object4Jsons;
+		List<Object> resultLists = new ArrayList<Object>();
+		ResultResponse<Long> result = new ResultResponse<Long>("object");
+		try {
+			resultLists = objectDao.saveAll(objectList);
+			networkNodeDao.saveAll(nodeList);
+			attributeDao.saveAll(attributeList);
+			objectFormDao.saveAll(formList);
+			positionDao.saveAll(positionList);
+			versionDao.saveAll(versionList);
+		} catch (Exception e) {
+			result.setSuccess(false);
+			Throwable cause = e.getCause();
+		    if(cause instanceof org.hibernate.exception.ConstraintViolationException) {
+		        String errMsg = 
+		        		((org.hibernate.exception.ConstraintViolationException)cause).
+		        		getSQLException().getMessage();
+		        result.setMessage(errMsg);
+		    } else {
+		    	result.setMessage(e.getMessage());
+		    }
+		} finally {
+			result.setCount(resultLists.size());
+			if (result.getCount() > 0) {
+				result.setSamplekey(resultLists.get(0).getId());
+			}
+		}
+		return result;
 	}
 	
 	public List<Attribute> AttributeConvert(List<Attribute4Json> attribute4Jsons,
@@ -190,7 +201,7 @@ public class WriteObjectController {
 		for (Form4Object form4Object : form4Objects) {
 			Position position = new Position();
 			position.PositionFromWrapper(form4Object.getGeom(), object_id, trsid, srsid, vtime);
-			if (null != position.getId())
+			if (null != position.getIndentity().getId())
 				positionList.add(position);
 		}
 		return positionList;

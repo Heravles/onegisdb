@@ -1,6 +1,7 @@
 package cn.ict.onedbcore.controller.write;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cn.ict.onedbcore.dao.DobjectDao;
 import cn.ict.onedbcore.entity.Dobject;
+import cn.ict.onedbcore.error.ResultResponse;
 
 
 
@@ -24,9 +26,28 @@ public class WriteDobjectController {
 	DobjectDao dobjectDao;
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/dobject")
-	public List<Dobject> writeDobjects(@RequestBody List<Dobject> dobjects) {
-		System.out.println(dobjects);
-		dobjectDao.saveAll(dobjects);
-		return dobjects;
+	public ResultResponse<Long> writeDobjects(@RequestBody List<Dobject> dobjects) {
+		List<Dobject> resultLists = new ArrayList<Dobject>();
+		ResultResponse<Long> result = new ResultResponse<Long>("dobject");
+		try {
+			resultLists = dobjectDao.saveAll(dobjects);
+		} catch (Exception e) {
+			result.setSuccess(false);
+			Throwable cause = e.getCause();
+		    if(cause instanceof org.hibernate.exception.ConstraintViolationException) {
+		        String errMsg = 
+		        		((org.hibernate.exception.ConstraintViolationException)cause).
+		        		getSQLException().getMessage();
+		        result.setMessage(errMsg);
+		    } else {
+		    	result.setMessage(e.getMessage());
+		    }
+		} finally {
+			result.setCount(resultLists.size());
+			if (result.getCount() > 0) {
+				result.setSamplekey(resultLists.get(0).getId());
+			}
+		}
+		return result;
 	}
 }

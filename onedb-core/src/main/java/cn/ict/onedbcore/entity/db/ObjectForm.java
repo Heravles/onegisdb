@@ -1,5 +1,6 @@
 package cn.ict.onedbcore.entity.db;
 
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,14 +16,11 @@ import lombok.Data;
 @Entity
 @Table(name = "objectform")
 public class ObjectForm {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long _id;
-	private Long id;
+	@EmbeddedId
+	private EmbededIdTime indentity;
 	private Long object_id;
 	private String name;
 	private Long trs;
-	private Long time;
 	private String formref_name;
 	private String formref_desc;
 	private String formref_fname;
@@ -36,12 +34,13 @@ public class ObjectForm {
 	
 	public void FormObjectFromWrapper(Form4Object form4Object, Long object_id, 
 			Long trsid, Long vtime, Long position_id) {
-		this.id = form4Object.getId();
+		this.indentity = new EmbededIdTime();
+		this.indentity.setId(form4Object.getId());
+		this.indentity.setTime(vtime);
 		this.object_id = object_id;
 		this.name = form4Object.getName();
 		if (trsid != 0) 
 			this.trs = trsid;
-		this.time = vtime;
 		FormRef formRef = form4Object.getFormref();
 		if (null != formRef) {
 			this.formref_name = formRef.getName();

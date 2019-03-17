@@ -1,6 +1,7 @@
 package cn.ict.onedbcore.dao;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +15,12 @@ public class SrsDao {
 
 	@Autowired
 	SrsMapper srsMapper;
-	
-	public Iterable<Srs> saveAll(List<Srs> srsList){
-		return srsMapper.saveAll(srsList);
-	}
 
+	public List<Srs> saveAll(Collection<Srs> lists){
+		List<Srs> resultList = new ArrayList<>();
+		srsMapper.saveAll(lists).forEach(resultList::add);
+		return resultList;
+	}
 	//public List<Long> saveAllTest(List<Srs> srsList){
 	//	List<Srs> resultList = new ArrayList<>();
 	//	srsMapper.saveAll(srsList).forEach(resultList::add);

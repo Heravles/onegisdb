@@ -1,5 +1,7 @@
 package cn.ict.onedbcore.dao;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +15,10 @@ public class DomainDao {
 
 	@Autowired
 	DomainMapper domainMapper;
-	
-	public Iterable<Domain> saveAll(List<Domain> domains){
-		return domainMapper.saveAll(domains);
+
+	public List<Domain> saveAll(Collection<Domain> lists){
+		List<Domain> resultList = new ArrayList<>();
+		domainMapper.saveAll(lists).forEach(resultList::add);
+		return resultList;
 	}
 }
