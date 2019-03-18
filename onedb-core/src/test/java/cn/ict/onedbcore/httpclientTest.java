@@ -74,7 +74,7 @@ public class httpclientTest {
             	File file = new File(path);
                 InputStreamEntity reqEntity = new InputStreamEntity(
                         new FileInputStream(file), -1);
-                reqEntity.setContentType("application/json");
+                reqEntity.setContentType("text/plain");
                 reqEntity.setChunked(true);
             	// HttpEntity httpEntity = EntityBuilder.create().
             	//		setStream(inputStream).
@@ -106,8 +106,8 @@ public class httpclientTest {
     }
     
     public static void main(String[] args) throws ClientProtocolException, IOException, URISyntaxException {
-    	String read_url = "http://10.17.18.46:8080/api/read/track/id/3437128736768";
-    	String url = "http://10.17.18.46:8080/api/write/domain";
+    	String read_url = "http://10.17.18.46:8080/api/read/track/begintime/1550739600000/endtime/1550742000000/trs/1/srs/1";
+    	String url = "http:e/domain";
     	String json = "[{\r\n" + 
     			"	\"id\": 1103283444331446272,\r\n" + 
     			"	\"name\": \"中期检查南海\",\r\n" + 
@@ -120,13 +120,14 @@ public class httpclientTest {
     			"	\"stime\": null\r\n" + 
     			"}]";
     	String path = "D:\\jjq\\Example for OneGIS Data\\test.domain";
+    	String testpath = "D:\\jjq\\test.txt";
     	
     	// 读数据
-    	HttpPostWithJson(read_url, "");
+    	//HttpPostWithJson(read_url, "");
     	// 写数据库-测试为domain。 body为String
-    	HttpPostWithJson(url, json);
+    	//HttpPostWithJson(url, json);
     	// 写数据库-测试为domain。 body为InputStream
-    	inputStreamUpload(url, path, "test.domain");
+    	inputStreamUpload(read_url, testpath, "test.txt");
 		
 	}
 }
