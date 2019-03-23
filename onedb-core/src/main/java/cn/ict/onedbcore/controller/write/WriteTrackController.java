@@ -32,7 +32,7 @@ public class WriteTrackController {
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/track")
 	@Consumes(MediaType.TEXT_PLAIN)
-	public ResultResponse<Long> writeDobjects(InputStream incomingData) {
+	public ResultResponse<Long> writeTrackLong(InputStream incomingData) {
         Boolean skipFirst = true;
 		List<TrackData> resultLists = new ArrayList<>();
 		ResultResponse<Long> result = new ResultResponse<Long>("trackdata");
@@ -47,6 +47,44 @@ public class WriteTrackController {
             	TrackData trackdata = new TrackData();
             	String[] str = line.split("\\s+");
             	trackdata.setTrackData(str);
+            	resultLists.add(trackdata);
+            }
+		} catch (Exception e) {
+			result.setSuccess(false);
+			Throwable cause = e.getCause();
+		    if(cause instanceof org.hibernate.exception.ConstraintViolationException) {
+		        String errMsg = 
+		        		((org.hibernate.exception.ConstraintViolationException)cause).
+		        		getSQLException().getMessage();
+		        result.setMessage(errMsg);
+		    } else {
+		    	result.setMessage(e.getMessage());
+		    }
+		} finally {
+			result.setCount(resultLists.size());
+			if (result.getCount() > 0) {
+				result.setSamplekey(resultLists.get(0).getIndentity().getOid());
+			}
+		}
+		return result;
+	}
+	@RequestMapping(method = RequestMethod.POST, value = "/shorttrack")
+	@Consumes(MediaType.TEXT_PLAIN)
+	public ResultResponse<Long> writeTrackShort(InputStream incomingData) {
+        Boolean skipFirst = true;
+		List<TrackData> resultLists = new ArrayList<>();
+		ResultResponse<Long> result = new ResultResponse<Long>("trackdata_short");
+        try {
+            BufferedReader in = new BufferedReader(new InputStreamReader(incomingData));
+            String line = null;
+            while((line = in.readLine()) != null) {
+            	if (skipFirst) {
+            		skipFirst = false;
+            		continue;
+            	}
+            	TrackData trackdata = new TrackData();
+            	String[] str = line.split("\\s+");
+            	trackdata.setTrackDataShort(str);
             	resultLists.add(trackdata);
             }
 		} catch (Exception e) {

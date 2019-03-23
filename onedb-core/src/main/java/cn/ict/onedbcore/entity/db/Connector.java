@@ -1,6 +1,8 @@
 package cn.ict.onedbcore.entity.db;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -13,7 +15,10 @@ import lombok.Data;
 @Table(name = "objectclassconnector")
 public class Connector {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long _id;
 	private Long id;
+	//private Long objectclass_id;
 	private String name;
 	private Integer type;
 	private Long relation_id;
@@ -22,7 +27,8 @@ public class Connector {
 	private String targetclass_name;
 
 	public void GetConnectorFromWrapper(Connector4Json connector4Json) {
-		this.id = connector4Json.getId();
+		//this.id = connector4Json.getId();
+		//this.objectclass_id = objectclassId;
 		this.name = connector4Json.getName();
 		if (null != connector4Json.getType()) {
 			this.type = GetType(connector4Json.getType());

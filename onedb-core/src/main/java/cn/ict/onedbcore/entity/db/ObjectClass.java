@@ -56,8 +56,8 @@ public class ObjectClass {
 		this.description = objectClass4Json.getDescription();
 		this.srs = srsid;
 		this.trs = trsid;
-		this.fields = objectClass4Json.getIdList4Fields();
-		this.forms = objectClass4Json.getIdList4Forms();
-		this.connectors = objectClass4Json.getIdList4Connectors();
+		//this.fields = objectClass4Json.getIdList4Fields();
+		//this.forms = objectClass4Json.getIdList4Forms();
+		//this.connectors = objectClass4Json.getIdList4Connectors();
 	}
 }
