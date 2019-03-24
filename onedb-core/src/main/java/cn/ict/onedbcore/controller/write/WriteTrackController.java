@@ -47,8 +47,10 @@ public class WriteTrackController {
             	TrackData trackdata = new TrackData();
             	String[] str = line.split("\\s+");
             	trackdata.setTrackData(str);
+            	System.out.println(trackdata);
             	resultLists.add(trackdata);
             }
+            trackDao.saveAll(resultLists);
 		} catch (Exception e) {
 			result.setSuccess(false);
 			Throwable cause = e.getCause();
@@ -87,6 +89,7 @@ public class WriteTrackController {
             	trackdata.setTrackDataShort(str);
             	resultLists.add(trackdata);
             }
+            trackDao.saveAll(resultLists);
 		} catch (Exception e) {
 			result.setSuccess(false);
 			Throwable cause = e.getCause();

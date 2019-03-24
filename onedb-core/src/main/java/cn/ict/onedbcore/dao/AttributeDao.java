@@ -16,13 +16,9 @@ public class AttributeDao {
 	@Autowired
 	AttributeMapper attributeMapper;
 	
-	public List<Long> saveAll(Collection<Attribute> attributes){
+	public List<Attribute> saveAll(Collection<Attribute> lists){
 		List<Attribute> resultList = new ArrayList<>();
-		attributeMapper.saveAll(attributes).forEach(resultList::add);
-		List<Long> array = new ArrayList<>();
-		for (Attribute attribute : resultList) {
-			array.add(attribute.get_id());
-		}
-		return array;
+		attributeMapper.saveAll(lists).forEach(resultList::add);
+		return resultList;
 	}
 }

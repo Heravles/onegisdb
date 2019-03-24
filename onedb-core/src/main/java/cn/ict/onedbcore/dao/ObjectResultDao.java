@@ -61,6 +61,10 @@ public class ObjectResultDao {
 		return transfer(resultMaps);
 	}
 	
+	public Long getCount() {
+		return objectResultMapper.getCount();
+	}
+	
 	
 	
 	public ObjectResult getById(int id) {

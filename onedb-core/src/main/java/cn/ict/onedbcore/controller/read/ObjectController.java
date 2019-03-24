@@ -23,6 +23,8 @@ public class ObjectController {
 	public ObjectResult getById(@PathVariable(value = "id") int id) {
 		return objectResultDao.getById(id);
 	}
+	
+
 
 	@RequestMapping(value = "/pageNum/{pageNum}/pageSize/{pageSize}", method = RequestMethod.GET)
 	public List<ObjectResult> getAllByPage(@PathVariable(value = "pageNum") Integer pageNum,

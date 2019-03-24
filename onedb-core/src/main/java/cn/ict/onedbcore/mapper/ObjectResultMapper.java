@@ -54,6 +54,11 @@ public interface ObjectResultMapper {
 	@ResultType(Map.class)
 	public Map<String, Object> getById(@Param("id") int id);
 	
+	@Select("SELECT count(*) FROM object")
+	@Options(statementType = StatementType.CALLABLE)
+	@ResultType(Long.class)
+	public Long getCount();
+	
 
 	@Select("SELECT * FROM get_object_list(#{pageNum}, #{pageSize}, #{orderType}, #{descOrAsc})")
 	@Options(statementType = StatementType.CALLABLE)

@@ -9,6 +9,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import cn.ict.onedbcore.dao.ActionResultDao;
@@ -30,7 +31,12 @@ public class ReadObjectController {
 	
 	@Autowired
 	private ActionResultDao actionResultDao;
-
+	
+	@RequestMapping(value = "/object/count", method = RequestMethod.GET)
+	public Long getById() {
+		return objectResultDao.getCount();
+	}
+	
 	@RequestMapping(value = "/object/sdomain/{sdomain}")
 	public List<Object4Json> queryByDomain(@PathVariable(value = "sdomain") String sdomain) {
 		List<ObjectResult> result = objectResultDao.queryByDomain(Long.valueOf(sdomain).longValue());

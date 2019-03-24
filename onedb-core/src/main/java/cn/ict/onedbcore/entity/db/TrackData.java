@@ -35,7 +35,7 @@ public class TrackData {
 		this.y = Double.valueOf(datas[2]).doubleValue();
 		this.z = Double.valueOf(datas[3]).doubleValue();
 		//this.time = Long.valueOf(datas[4]).longValue();
-		this.indentity.setOid(Long.valueOf(datas[4]).longValue());
+		this.indentity.setTime(Long.valueOf(datas[4]).longValue());
 		this.speed_kilometer = Double.valueOf(datas[5]).doubleValue();
 		this.height_meter = Double.valueOf(datas[6]).doubleValue();
 		this.heading_degree = Double.valueOf(datas[7]).doubleValue();
@@ -49,6 +49,6 @@ public class TrackData {
 		this.y = Double.valueOf(datas[2]).doubleValue();
 		this.z = Double.valueOf(datas[3]).doubleValue();
 		//this.time = Long.valueOf(datas[4]).longValue();
-		this.indentity.setOid(Long.valueOf(datas[4]).longValue());
+		this.indentity.setTime(Long.valueOf(datas[4]).longValue());
 	}
 }
