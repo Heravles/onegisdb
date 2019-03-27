@@ -35,6 +35,10 @@ public class TrackDao {
 		System.out.println(resultMaps);
 		return transfer(resultMaps);
 	}
+	
+	public void updateGeom() {
+		trackResultMapper.updateGeom();
+	}
 
 	public List<TrackDataResult> queryTrackByIdAndTS(
 			String id, long begintime, long endtime, String wkt, long trs, long srs) {

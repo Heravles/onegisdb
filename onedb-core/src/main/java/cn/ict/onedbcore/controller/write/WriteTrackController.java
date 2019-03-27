@@ -47,10 +47,10 @@ public class WriteTrackController {
             	TrackData trackdata = new TrackData();
             	String[] str = line.split("\\s+");
             	trackdata.setTrackData(str);
-            	System.out.println(trackdata);
             	resultLists.add(trackdata);
             }
             trackDao.saveAll(resultLists);
+            trackDao.updateGeom();
 		} catch (Exception e) {
 			result.setSuccess(false);
 			Throwable cause = e.getCause();
@@ -70,6 +70,7 @@ public class WriteTrackController {
 		}
 		return result;
 	}
+	
 	@RequestMapping(method = RequestMethod.POST, value = "/shorttrack")
 	@Consumes(MediaType.TEXT_PLAIN)
 	public ResultResponse<Long> writeTrackShort(InputStream incomingData) {
@@ -90,6 +91,7 @@ public class WriteTrackController {
             	resultLists.add(trackdata);
             }
             trackDao.saveAll(resultLists);
+            trackDao.updateGeom();
 		} catch (Exception e) {
 			result.setSuccess(false);
 			Throwable cause = e.getCause();

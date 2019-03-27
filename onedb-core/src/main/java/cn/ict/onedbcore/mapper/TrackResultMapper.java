@@ -24,4 +24,7 @@ public interface TrackResultMapper {
 			@Param("begintime") long begintime, @Param("endtime") long endtime,
 			@Param("wkt") String wkt, @Param("trs") long trs, @Param("srs") long srs);
 
+	@Select("update objecttrack set geom = st_makepointm(x,y,z) where geom is null")
+	@Options(statementType = StatementType.CALLABLE)
+	public void updateGeom();
 }

@@ -5,7 +5,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
@@ -31,12 +30,8 @@ import lombok.Data;
 public class NetworkNode {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long _id;
-	private Long object_id;
+	private EmbededThreeKey identity;
 	private Long trs;
-	private Long time;
-	@NotNull
-	private Long refobject_id;
 	private String refobject_name;
 	private Long refotype_id;
 	private String refotype_name;
@@ -54,14 +49,15 @@ public class NetworkNode {
 	//private long[] attributes;
 
 	public void NodeFromWrapper(Node4Json node4Json, Long object_id, Long trsid, Long vtime) {
-		this.object_id = object_id;
+		this.identity = new EmbededThreeKey();
+		this.identity.setObject_id(object_id);
 		if (null != trsid) {
 			this.trs = trsid;
 		}
-		this.time = vtime;
+		this.identity.setTime(vtime);
 		RefObject refObject = node4Json.getRefobject();
 		if (null != refObject) {
-			this.refobject_id = refObject.getId();
+			this.identity.setRefobject_id(refObject.getId());
 			this.refobject_name = refObject.getName();
 			if (null != refObject.getOtype()) {
 				this.refotype_id = refObject.getOtype().getId();

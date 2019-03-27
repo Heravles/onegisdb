@@ -18,7 +18,7 @@ public class Position {
 	private Long object_id;
 	private Long trs;
 	private Long srs;
-	private String geom;
+	private String geomstr;
 	
 	public void PositionFromWrapper(Position4Json position4Json, Long object_id,
 			Long trsid, Long srsid, Long vtime) {
@@ -31,7 +31,7 @@ public class Position {
 			this.trs = trsid;
 		if (srsid != 0)
 			this.srs = srsid;
-		this.geom = gson.toJson(position4Json.getData());
+		this.geomstr = gson.toJson(position4Json.getData());
 	}
 
 }

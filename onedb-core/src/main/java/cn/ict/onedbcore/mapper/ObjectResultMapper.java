@@ -59,6 +59,9 @@ public interface ObjectResultMapper {
 	@ResultType(Long.class)
 	public Long getCount();
 	
+	@Select("update position set geom = st_geomfromgeojson(geomstr) where geom is null")
+	@Options(statementType = StatementType.CALLABLE)
+	public void updateGeom();
 
 	@Select("SELECT * FROM get_object_list(#{pageNum}, #{pageSize}, #{orderType}, #{descOrAsc})")
 	@Options(statementType = StatementType.CALLABLE)

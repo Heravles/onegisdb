@@ -16,6 +16,7 @@ import cn.ict.onedbcore.dao.DobjectDao;
 import cn.ict.onedbcore.dao.NetworkNodeDao;
 import cn.ict.onedbcore.dao.ObjectDao;
 import cn.ict.onedbcore.dao.ObjectFormDao;
+import cn.ict.onedbcore.dao.ObjectResultDao;
 import cn.ict.onedbcore.dao.PositionDao;
 import cn.ict.onedbcore.dao.SRSTRSDao;
 import cn.ict.onedbcore.dao.VersionDao;
@@ -62,6 +63,8 @@ public class WriteObjectController {
 	VersionDao versionDao;
 	@Autowired
 	NetworkNodeDao networkNodeDao;
+	@Autowired
+	private ObjectResultDao objectResultDao;
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/object")
 	public ResultResponse<Long> writeDobjects(@RequestBody List<Object4Json> object4Jsons) {
@@ -152,6 +155,7 @@ public class WriteObjectController {
 			objectFormDao.saveAll(formList);
 			positionDao.saveAll(positionList);
 			versionDao.saveAll(versionList);
+			objectResultDao.updateGeom();
 		} catch (Exception e) {
 			result.setSuccess(false);
 			Throwable cause = e.getCause();

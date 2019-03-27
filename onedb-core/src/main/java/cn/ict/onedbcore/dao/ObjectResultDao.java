@@ -65,7 +65,9 @@ public class ObjectResultDao {
 		return objectResultMapper.getCount();
 	}
 	
-	
+	public void updateGeom() {
+		objectResultMapper.updateGeom();
+	}
 	
 	public ObjectResult getById(int id) {
 		Map<String, Object> resultMap = objectResultMapper.getById(id);

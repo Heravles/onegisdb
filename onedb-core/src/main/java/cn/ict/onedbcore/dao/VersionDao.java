@@ -20,7 +20,7 @@ public class VersionDao {
 		versionMapper.saveAll(versions).forEach(resultList::add);
 		long[] array = new long[resultList.size()];
 		for (int i = 0; i < resultList.size(); ++i) {
-			array[i] = resultList.get(i).get_id();
+			array[i] = resultList.get(i).getIdentity().getObject_id();
 		}
 		return array;
 	}
